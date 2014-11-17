@@ -9,9 +9,8 @@
 #import "SRMotionManager.h"
 #import <SOMotionDetector/SOMotionDetector.h>
 
-static CGFloat const kDeltaMin = 0.1;
-static CGFloat const kTimeInterval = 0.1;
-static CGFloat const kDeltaVigorousMin = 0.5;
+// -- minimum amount of change needed in attitude deltas to constitute a change -- //
+static CGFloat const kDeltaMin = 0.05;
 
 @interface SRMotionManager () <SOMotionDetectorDelegate>
 
@@ -82,7 +81,6 @@ static CGFloat const kDeltaVigorousMin = 0.5;
 {
     NSNumber * motionNumber = [NSNumber numberWithInteger:motionType];
     [self updateMotionType:[self.motionReference objectForKey:motionNumber]];
-    //NSLog(@"Motion type has changed to: %@", [self.motionReference objectForKey:motionNumber]);
 }
 - (void)motionDetector:(SOMotionDetector *)motionDetector locationChanged:(CLLocation *)location
 {
@@ -100,17 +98,28 @@ static CGFloat const kDeltaVigorousMin = 0.5;
     }
     //NSLog(@"\n\nThe attitudes: \nroll %f \npitch %f \nyaw %f", attitude.roll, attitude.pitch,attitude.yaw );
     //NSLog(@"Rotation Rate: x: %f  y: %f  z: %f", rotation.x, rotation.y, rotation.z);
-    
+    NSString * movementType;
     if ( ![self.attitude isEqual:attitude] ) {
         CGFloat rollDelta = fabs(self.attitude.roll - attitude.roll);
         CGFloat pitchDelta = fabs(self.attitude.pitch - attitude.pitch);
         CGFloat yawDelta = fabs(self.attitude.yaw - attitude.yaw);
         
         if ( rollDelta > kDeltaMin || pitchDelta > kDeltaMin || yawDelta > kDeltaMin ) {
-            NSLog(@"Being fondled");
             NSLog(@"Deltas: %.3f  %.3f   %.3f", rollDelta, pitchDelta, yawDelta);
+            
+            [[NSOperationQueue new] addOperationWithBlock:^{
+                [self.delegate attitudeHasUpdatedRoll:rollDelta withYaw:yawDelta andPitch:pitchDelta];
+            }];
+            
+            movementType = @"Fondling Gently";
+            if(self.sharedSODector.isShaking){
+                movementType = @"Fondling Vigorously";
+            }
         }
-        
+        else{
+            movementType = @"Not Fondling At All";
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"fondleChange" object:self userInfo:@{ @"motion": movementType}];
     }
     self.attitude = attitude;
     

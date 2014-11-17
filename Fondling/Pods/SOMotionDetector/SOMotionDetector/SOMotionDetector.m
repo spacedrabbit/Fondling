@@ -89,7 +89,7 @@ CGFloat kMinimumRunningAcceleration = 3.5f;
         
         //NSLog(@"\n\nThe attitudes: \nroll %f \npitch %f \nyaw %f", attitude.roll, attitude.pitch,attitude.roll );
         //NSLog(@"Rotation Rate: x: %f  y: %f  z: %f", rotationRate.x, rotationRate.y, rotationRate.z);
-        [self calculateMotionType];
+        //[self calculateMotionType];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ( self.delegate && [self.delegate respondsToSelector:@selector(fondlerDetector:attitudeChanged:rotationRate:)] ) {
                 [self.delegate fondlerDetector:self attitudeChanged:attitude rotationRate:rotationRate];
@@ -101,7 +101,7 @@ CGFloat kMinimumRunningAcceleration = 3.5f;
     [self.motionManager startAccelerometerUpdatesToQueue:[[NSOperationQueue alloc] init] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error)
      {
          _acceleration = accelerometerData.acceleration;
-         [self calculateMotionType];
+         //[self calculateMotionType];
          dispatch_async(dispatch_get_main_queue(), ^{
              if (self.delegate && [self.delegate respondsToSelector:@selector(motionDetector:accelerationChanged:)])
              {
@@ -186,32 +186,7 @@ CGFloat kMinimumRunningAcceleration = 3.5f;
 #pragma mark - Private Methods
 - (void)calculateMotionType
 {
-    if (self.useM7IfAvailable && [CMMotionActivityManager isActivityAvailable])
-    {
-        return;
-    }
     
-    if (_currentSpeed < kMinimumSpeed)
-    {
-        NSLog(@"The wrong min vals");
-        _motionType = _isShaking ? MotionTypeVigorousFondling : MotionTypeFondling;
-        //_motionType = MotionTypeNotMoving;
-    }
-//    else if (_currentSpeed <= kMaximumWalkingSpeed)
-//    {
-//        _motionType = _isShaking ? MotionTypeRunning : MotionTypeWalking;
-//    }
-//    else if (_currentSpeed <= kMaximumRunningSpeed)
-//    {
-//        _motionType = _isShaking ? MotionTypeRunning : MotionTypeAutomotive;
-//    }
-//#pragma add new enum val here
-//    else if (_currentSpeed < kMinimumSpeed){
-//        _motionType = _isShaking ? MotionTypeVigorousFondling : MotionTypeFondling;
-//    }
-//   else{
-//        _motionType = MotionTypeAutomotive;
-//    }
     
     // If type was changed, then call delegate method
     if (self.motionType != self.previouseMotionType)
