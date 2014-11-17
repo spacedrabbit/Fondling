@@ -20,6 +20,7 @@
 		B1C17DCB1A17D2F600B494C6 /* SRMotionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C17DCA1A17D2F600B494C6 /* SRMotionManager.m */; };
 		B1C17DCD1A17D35A00B494C6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1C17DCC1A17D35A00B494C6 /* CoreLocation.framework */; };
 		B1C17DD01A17E1C600B494C6 /* SRFondlingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C17DCF1A17E1C600B494C6 /* SRFondlingViewController.m */; };
+		B1C17DD31A19D5F700B494C6 /* UIColor+HoneyPotColorPallette.m in Sources */ = {isa = PBXBuildFile; fileRef = B1C17DD21A19D5F700B494C6 /* UIColor+HoneyPotColorPallette.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,8 @@
 		B1C17DCC1A17D35A00B494C6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		B1C17DCE1A17E1C600B494C6 /* SRFondlingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRFondlingViewController.h; sourceTree = "<group>"; };
 		B1C17DCF1A17E1C600B494C6 /* SRFondlingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRFondlingViewController.m; sourceTree = "<group>"; };
+		B1C17DD11A19D5F700B494C6 /* UIColor+HoneyPotColorPallette.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HoneyPotColorPallette.h"; sourceTree = "<group>"; };
+		B1C17DD21A19D5F700B494C6 /* UIColor+HoneyPotColorPallette.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HoneyPotColorPallette.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +126,8 @@
 		B1C17D9E1A17CFC700B494C6 /* Fondling */ = {
 			isa = PBXGroup;
 			children = (
+				B1C17DD11A19D5F700B494C6 /* UIColor+HoneyPotColorPallette.h */,
+				B1C17DD21A19D5F700B494C6 /* UIColor+HoneyPotColorPallette.m */,
 				B1C17DA31A17CFC700B494C6 /* AppDelegate.h */,
 				B1C17DA41A17CFC700B494C6 /* AppDelegate.m */,
 				B1C17DA61A17CFC700B494C6 /* ViewController.h */,
@@ -304,6 +309,7 @@
 				B1C17DA51A17CFC700B494C6 /* AppDelegate.m in Sources */,
 				B1C17DD01A17E1C600B494C6 /* SRFondlingViewController.m in Sources */,
 				B1C17DCB1A17D2F600B494C6 /* SRMotionManager.m in Sources */,
+				B1C17DD31A19D5F700B494C6 /* UIColor+HoneyPotColorPallette.m in Sources */,
 				B1C17DA21A17CFC700B494C6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

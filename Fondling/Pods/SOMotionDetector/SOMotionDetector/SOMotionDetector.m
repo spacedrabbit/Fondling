@@ -67,7 +67,7 @@ CGFloat kMinimumRunningAcceleration = 3.5f;
         
         self.motionManager = [[CMMotionManager alloc] init];
         
-        self.motionManager.deviceMotionUpdateInterval = 0.4f;
+        self.motionManager.deviceMotionUpdateInterval = 0.05f;
         
     }
     
@@ -79,7 +79,7 @@ CGFloat kMinimumRunningAcceleration = 3.5f;
 {
     [[SOLocationManager sharedInstance] start];
     
-    self.shakeDetectingTimer = [NSTimer scheduledTimerWithTimeInterval:0.01f target:self selector:@selector(detectShaking) userInfo:Nil repeats:YES];
+    //self.shakeDetectingTimer = [NSTimer scheduledTimerWithTimeInterval:0.01f target:self selector:@selector(detectShaking) userInfo:Nil repeats:YES];
     
     [self.motionManager startDeviceMotionUpdatesToQueue:[[NSOperationQueue alloc] init]
                                             withHandler:^(CMDeviceMotion *motion, NSError *error)
@@ -98,17 +98,17 @@ CGFloat kMinimumRunningAcceleration = 3.5f;
         
     }];
     
-    [self.motionManager startAccelerometerUpdatesToQueue:[[NSOperationQueue alloc] init] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error)
-     {
-         _acceleration = accelerometerData.acceleration;
-         //[self calculateMotionType];
-         dispatch_async(dispatch_get_main_queue(), ^{
-             if (self.delegate && [self.delegate respondsToSelector:@selector(motionDetector:accelerationChanged:)])
-             {
-                 [self.delegate motionDetector:self accelerationChanged:self.acceleration];
-             }
-         });
-     }];
+//    [self.motionManager startAccelerometerUpdatesToQueue:[[NSOperationQueue alloc] init] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error)
+//     {
+//         _acceleration = accelerometerData.acceleration;
+//         //[self calculateMotionType];
+//         dispatch_async(dispatch_get_main_queue(), ^{
+//             if (self.delegate && [self.delegate respondsToSelector:@selector(motionDetector:accelerationChanged:)])
+//             {
+//                 [self.delegate motionDetector:self accelerationChanged:self.acceleration];
+//             }
+//         });
+//     }];
     
     if (self.useM7IfAvailable && [CMMotionActivityManager isActivityAvailable])
     {
@@ -256,18 +256,18 @@ CGFloat kMinimumRunningAcceleration = 3.5f;
 #pragma mark - LocationManager notification handler
 - (void)handleLocationChangedNotification:(NSNotification *)note
 {
-    self.currentLocation = [SOLocationManager sharedInstance].lastLocation;
-    _currentSpeed = self.currentLocation.speed;
-    if (_currentSpeed < 0)
-        _currentSpeed = 0;
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.delegate && [self.delegate respondsToSelector:@selector(motionDetector:locationChanged:)])
-        {
-            [self.delegate motionDetector:self locationChanged:self.currentLocation];
-        }
-    });
-
-    [self calculateMotionType];
+//    self.currentLocation = [SOLocationManager sharedInstance].lastLocation;
+//    _currentSpeed = self.currentLocation.speed;
+//    if (_currentSpeed < 0)
+//        _currentSpeed = 0;
+//    
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        if (self.delegate && [self.delegate respondsToSelector:@selector(motionDetector:locationChanged:)])
+//        {
+//            [self.delegate motionDetector:self locationChanged:self.currentLocation];
+//        }
+//    });
+//
+//    [self calculateMotionType];
 }
 @end

@@ -10,6 +10,7 @@
 #import "SRFondlingViewController.h"
 #import <FontAwesomeKit/FAKFontAwesome.h>
 #import <JBChartView/JBLineChartView.h>
+#import "UIColor+HoneyPotColorPallette.h"
 
 @interface SRFondlingViewController ()<JBLineChartViewDataSource, JBLineChartViewDelegate, SRMotionManagerDelegate>
 
@@ -40,22 +41,13 @@
     self.rollValues = [NSMutableArray array];
     self.pitchValues = [NSMutableArray array];
 
-    
     [self.motionTitleLabel setAdjustsFontSizeToFitWidth:YES];
     
     self.fondleManager = [SRMotionManager sharedFondler];
     [self.fondleManager.sharedSODector startDetection];
     
     self.fondleManager.delegate = self;
-    
-    self.lineChart = [[JBLineChartView alloc] initWithFrame:self.chartView.frame];
-    self.lineChart.dataSource = self;
-    self.lineChart.delegate = self;
-    
-    [self.lineChart setMinimumValue:0.0];
-    [self.lineChart setMaximumValue:2.0];
-    
-    [self.chartView addSubview:self.lineChart];
+    [self setLineChartValues];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,13 +55,29 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) setLineChartValues{
+    
+    self.lineChart = [[JBLineChartView alloc] initWithFrame:self.chartView.frame];
+    self.lineChart.dataSource = self;
+    self.lineChart.delegate = self;
+    self.lineChart.backgroundColor = [UIColor eggShellWhite];
+    
+    
+    [self.lineChart setMinimumValue:0.0];
+    [self.lineChart setMaximumValue:0.5];
+    
+    UIView *header = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.lineChart.frame.size.width,120)];
+    [self.lineChart.headerView setBackgroundColor:[UIColor roosterFeatherGreen]];
+    [self.lineChart setHeaderView:header];
+    [self.lineChart addSubview:header];
+    
+    [self.chartView addSubview:self.lineChart];
+    
+}
+
 -(void) updateLabelsWithMotions:(NSNotification *)sender {
     
-    [UIView animateWithDuration:1.0f
-                     animations:^{
-                         self.motionTitleLabel.text = [sender.userInfo valueForKey:@"motion"];
-    } completion:^(BOOL finished) {
-    }];
+        self.motionTitleLabel.text = [sender.userInfo valueForKey:@"motion"];
 
 }
 
@@ -90,13 +98,13 @@
 }
 -(void) pruneData{
     
-    while ([self.pitchValues count] > 50) {
+    while ([self.pitchValues count] > 10) {
         [self.pitchValues removeObjectAtIndex:0];
     }
-    while ([self.rollValues count] > 50) {
+    while ([self.rollValues count] > 10) {
         [self.rollValues removeObjectAtIndex:0];
     }
-    while ([self.yawValues count] > 50) {
+    while ([self.yawValues count] > 10) {
         [self.yawValues removeObjectAtIndex:0];
     }
     
@@ -122,6 +130,19 @@
         return [UIColor orangeColor];
     }
 }
+-(void)lineChartView:(JBLineChartView *)lineChartView didSelectLineAtIndex:(NSUInteger)lineIndex horizontalIndex:(NSUInteger)horizontalIndex touchPoint:(CGPoint)touchPoint{
+    
+    
+    
+}
+
+
+-(BOOL)shouldExtendSelectionViewIntoHeaderPaddingForChartView:(JBChartView *)chartView{
+    return YES;
+}
+-(BOOL)shouldExtendSelectionViewIntoFooterPaddingForChartView:(JBChartView *)chartView{
+    return YES;
+}
 
 // -- DataSource Methods -- //
 
@@ -142,7 +163,15 @@
         }
     }
 }
-
+-(JBLineChartViewLineStyle)lineChartView:(JBLineChartView *)lineChartView lineStyleForLineAtLineIndex:(NSUInteger)lineIndex{
+    
+    if (lineIndex % 2) {
+        return JBLineChartViewLineStyleDashed;
+    }else{
+        return JBLineChartViewLineStyleSolid;
+    }
+    
+}
 -(BOOL)lineChartView:(JBLineChartView *)lineChartView smoothLineAtLineIndex:(NSUInteger)lineIndex{
     return YES;
 }

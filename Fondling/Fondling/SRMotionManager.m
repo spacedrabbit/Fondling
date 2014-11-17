@@ -10,7 +10,7 @@
 #import <SOMotionDetector/SOMotionDetector.h>
 
 // -- minimum amount of change needed in attitude deltas to constitute a change -- //
-static CGFloat const kDeltaMin = 0.05;
+static CGFloat const kDeltaMin = 0.01;
 
 @interface SRMotionManager () <SOMotionDetectorDelegate>
 
